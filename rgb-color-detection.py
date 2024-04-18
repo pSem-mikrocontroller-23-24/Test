@@ -42,7 +42,7 @@ with dai.Device(pipeline) as device:
         inRgb = qRgb.get()  # blocking call, will wait until a new data has arrived
 
         # Retrieve 'bgr' (opencv format) frame
-        # cv2.imshow("rgb", inRgb.getCvFrame())
+        cv2.imshow("rgb", inRgb.getCvFrame())
 
     # Convert the imageFrame in  
     # BGR(RGB color space) to  
