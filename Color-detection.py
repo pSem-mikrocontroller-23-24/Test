@@ -38,6 +38,19 @@ while(1):
     blue_lower = np.array([94, 80, 2], np.uint8) 
     blue_upper = np.array([120, 255, 255], np.uint8) 
     blue_mask = cv2.inRange(hsvFrame, blue_lower, blue_upper) 
+  # For blue color
+blue_mask = cv2.dilate(blue_mask, kernel)
+res_blue = cv2.bitwise_and(imageFrame, imageFrame, mask=blue_mask)
+
+# Find contours for red color
+contours, hierarchy = cv2.findContours(red_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+for pic, contour in enumerate(contours):
+    area = cv2.contourArea(contour)
+    if area > 300:
+        x, y, w, h = cv2.boundingRect(contour)
+        imageFrame = cv2.rectangle(imageFrame, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        cv2.putText(imageFrame, "Red Color", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255))
+
       
     # Morphological Transform, Dilation 
     # for each color and bitwise_and operator 
@@ -52,8 +65,8 @@ while(1):
       
     # For green color 
     green_mask = cv2.dilate(green_mask, kernel) 
-    res_green = cv2.bitwise_and(imageFrame, imageFrame, 
-                                mask = green_mask) 
+    res_green = cv2.bitwise_and(imageFrame, imageFrame, mask=green_mask)
+
       
     # For blue color 
     blue_mask = cv2.dilate(blue_mask, kernel) 
